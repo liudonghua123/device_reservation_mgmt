@@ -55,6 +55,8 @@
               {{ t('sys.login.registerButton') }}
             </Button> -->
     </FormItem>
+
+    <!--
     <ARow class="enter-x">
       <ACol :md="8" :xs="24">
         <Button block @click="setLoginState(LoginStateEnum.MOBILE)">
@@ -81,6 +83,7 @@
       <a @click="onThirdLogin('dingtalk')" title="钉钉"><DingtalkCircleFilled /></a>
       <a @click="onThirdLogin('wechat_open')" title="微信"><WechatFilled /></a>
     </div>
+    -->
   </Form>
   <!-- 第三方登录相关弹框 -->
   <ThirdModal ref="thirdModalRef"></ThirdModal>
