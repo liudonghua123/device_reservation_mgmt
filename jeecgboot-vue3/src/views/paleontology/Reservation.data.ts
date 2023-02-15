@@ -27,8 +27,7 @@ export const columns: BasicColumn[] = [
    {
     title: '测试样品描述',
     align:"center",
-    dataIndex: 'sampleDescription',
-    slots: { customRender: 'fileSlot' },
+    dataIndex: 'sampleDescription'
    },
    {
     title: '测样数量',
@@ -178,9 +177,7 @@ export const formSchema: FormSchema[] = [
   {
     label: '测试样品描述',
     field: 'sampleDescription',
-    component: 'JUpload',
-    componentProps:{
-     },
+    component: 'Input',
   },
   {
     label: '测样数量',
