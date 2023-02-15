@@ -114,21 +114,6 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
   },
   {
-    label: '设备介绍',
-    field: 'introduction',
-    component: 'JEditor',
-  },
-  {
-    label: '设备操作指南',
-    field: 'guide',
-    component: 'JEditor',
-  },
-  {
-    label: '设备注意事项',
-    field: 'notes',
-    component: 'JEditor',
-  },
-  {
     label: '设备类别',
     field: 'category',
     component: 'JDictSelectTag',
@@ -159,6 +144,27 @@ export const formSchema: FormSchema[] = [
     componentProps:{
         dictCode:"lab_position"
      },
+  },
+  {
+    label: '设备介绍',
+    field: 'introduction',
+    component: 'JEditor',
+    colProps: {span: 24},
+    itemProps: {labelCol: {sm: 2, xs: 12}, wrapperCol: {sm: 22, xs: 12}},
+  },
+  {
+    label: '设备操作指南',
+    field: 'guide',
+    component: 'JEditor',
+    colProps: {span: 24},
+    itemProps: {labelCol: {sm: 2, xs: 12}, wrapperCol: {sm: 22, xs: 12}},
+  },
+  {
+    label: '设备注意事项',
+    field: 'notes',
+    component: 'JEditor',
+    colProps: {span: 24},
+    itemProps: {labelCol: {sm: 2, xs: 12}, wrapperCol: {sm: 22, xs: 12}},
   },
 	// TODO 主键隐藏字段，目前写死为ID
 	{

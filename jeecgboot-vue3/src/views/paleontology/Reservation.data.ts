@@ -147,6 +147,11 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
+    label: '实验项目',
+    field: 'experimentName',
+    component: 'Input',
+  },
+  {
     label: '使用开始时间',
     field: 'usageStartDatetime',
     component: 'DatePicker',
@@ -163,26 +168,6 @@ export const formSchema: FormSchema[] = [
        showTime: true,
        valueFormat: 'YYYY-MM-DD HH:mm:ss'
      },
-  },
-  {
-    label: '实验项目',
-    field: 'experimentName',
-    component: 'Input',
-  },
-  {
-    label: '实验内容',
-    field: 'experimentContent',
-    component: 'JEditor',
-  },
-  {
-    label: '测试样品描述',
-    field: 'sampleDescription',
-    component: 'Input',
-  },
-  {
-    label: '测样数量',
-    field: 'sampleAmount',
-    component: 'Input',
   },
   {
     label: '使用方向',
@@ -206,11 +191,32 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
   },
   {
+    label: '实验内容',
+    field: 'experimentContent',
+    component: 'JEditor',
+    colProps: {span: 24},
+    itemProps: {labelCol: {sm: 2, xs: 12}, wrapperCol: {sm: 22, xs: 12}},
+  },
+  {
+    label: '测试样品描述',
+    field: 'sampleDescription',
+    component: 'JEditor',
+    colProps: {span: 24},
+    itemProps: {labelCol: {sm: 2, xs: 12}, wrapperCol: {sm: 22, xs: 12}},
+  },
+  {
+    label: '测样数量',
+    field: 'sampleAmount',
+    component: 'Input',
+  },
+  {
     label: '使用后设备照片',
     field: 'photosAfterUsage',
-     component: 'JImageUpload',
-     componentProps:{
-      },
+    component: 'JImageUpload',
+    componentProps:{
+    },
+    colProps: {span: 24},
+    itemProps: {labelCol: {sm: 2, xs: 12}, wrapperCol: {sm: 22, xs: 12}},
   },
 	// TODO 主键隐藏字段，目前写死为ID
 	{
