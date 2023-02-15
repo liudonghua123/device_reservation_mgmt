@@ -35,6 +35,7 @@ import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.jeecg.common.aspect.annotation.AutoLog;
+import org.jeecg.common.aspect.annotation.PermissionData;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
  /**
@@ -63,6 +64,7 @@ public class ReservationController extends JeecgController<Reservation, IReserva
 	//@AutoLog(value = "预约-分页列表查询")
 	@ApiOperation(value="预约-分页列表查询", notes="预约-分页列表查询")
 	@GetMapping(value = "/list")
+	@PermissionData(pageComponent="paleontology/ReservationList")
 	public Result<IPage<Reservation>> queryPageList(Reservation reservation,
 								   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
 								   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
