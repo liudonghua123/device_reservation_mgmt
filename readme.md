@@ -15,9 +15,23 @@
 
 ```shell
 mysql -u root -p
+create user 'device_reservation'@'%' IDENTIFIED WITH mysql_native_password by 'device_reservation@ynu!@#';
+grant all privileges on device_reservation.* to 'device_reservation'@'%';
+flush privileges;
 create database device_reservation default charset utf8mb4;
 use device_reservation;
 source jeecg-boot/db/jeecgboot-mysql-5.7.sql;
+```
+
+### redis initialize
+
+```shell
+# 
+redis-cli
+auth default xxx
+# https://redis.io/commands/acl-setuser/
+# allkeys allchannels same as ~* &*
+ACL SETUSER device_reservation on >device_reservation@ynu!@# allkeys allchannels +@all -flushdb -flushall
 ```
 
 ### update configurations

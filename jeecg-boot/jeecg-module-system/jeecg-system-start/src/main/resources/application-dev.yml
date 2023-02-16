@@ -130,9 +130,9 @@ spring:
         connectionProperties: druid.stat.mergeSql\=true;druid.stat.slowSqlMillis\=5000
       datasource:
         master:
-          url: jdbc:mysql://127.0.0.1:3306/jeecg-boot?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
-          username: root
-          password: root
+          url: jdbc:mysql://113.55.15.126:3306/device_reservation?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+          username: device_reservation
+          password: "device_reservation@ynu!@#"
           driver-class-name: com.mysql.cj.jdbc.Driver
           # 多数据源配置
           #multi-datasource1:
@@ -143,9 +143,10 @@ spring:
   #redis 配置
   redis:
     database: 0
-    host: 127.0.0.1
+    host: 113.55.15.124
     port: 6379
-    password: ''
+    username: device_reservation
+    password: 'device_reservation@ynu!@#'
 #mybatis plus 设置
 mybatis-plus:
   mapper-locations: classpath*:org/jeecg/modules/**/xml/*Mapper.xml
