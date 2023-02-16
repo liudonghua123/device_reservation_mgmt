@@ -19,6 +19,8 @@ echo [`date "+%Y-%m-%d %H:%M:%S"`] build the backend
 cd jeecg-boot
 mvn clean package -Dmaven.test.skip=true | tee -a $log_file
 cd ..
+# Here we use/install the build jar file as the linux service, see https://docs.spring.io/spring-boot/docs/current/reference/html/deployment.html#deployment.installing for more details.
+# ln -s /root/device_reservation_mgmt/device_reservation_mgmt.jar /etc/init.d/device_reservation_mgmt
 rm -rf device_reservation_mgmt.jar
 \cp jeecg-boot/jeecg-module-system/jeecg-system-start/target/jeecg-system-start-3.4.4.jar device_reservation_mgmt.jar
 \cp application-dev.yml jeecg-boot/jeecg-module-system/jeecg-system-start/target/
