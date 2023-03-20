@@ -55,6 +55,24 @@ export const batchDelete = (params, handleSuccess) => {
   });
 }
 /**
+ * 批量审批通过
+ * @param params
+ */
+export const approveSuccess = (params, handleSuccess) => {
+  createConfirm({
+    iconType: 'warning',
+    title: '确认审批',
+    content: '是否审批选中数据',
+    okText: '确认',
+    cancelText: '取消',
+    onOk: () => {
+      return defHttp.post({url: Api.edit, data: params}, {joinParamsToUrl: true}).then(() => {
+        handleSuccess();
+      });
+    }
+  });
+}
+/**
  * 保存或者更新
  * @param params
  */

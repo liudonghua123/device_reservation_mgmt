@@ -50,7 +50,7 @@
   import { useListPage } from '/@/hooks/system/useListPage'
   import ReservationModal from './components/ReservationModal.vue'
   import {columns, searchFormSchema} from './Reservation.data';
-  import {list, deleteOne, batchDelete, getImportUrl,getExportUrl} from './Reservation.api';
+  import {list, deleteOne, batchDelete, getImportUrl,getExportUrl, approveSuccess} from './Reservation.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
@@ -131,6 +131,13 @@
      await batchDelete({ids: selectedRowKeys.value}, handleSuccess);
    }
    /**
+    * 批量审批通过事件
+    */
+  async function handleApproveSuccess(record) {
+     await approveSuccess({id: record.id, approvalStatus: 3}, handleSuccess);
+   }
+   
+   /**
     * 成功回调
     */
   function handleSuccess() {
@@ -160,6 +167,12 @@
            popConfirm: {
              title: '是否确认删除',
              confirm: handleDelete.bind(null, record),
+           }
+         }, {
+           label: '通过',
+           popConfirm: {
+             title: '是否确认通过',
+             confirm: handleApproveSuccess.bind(null, record),
            }
          }
        ]
