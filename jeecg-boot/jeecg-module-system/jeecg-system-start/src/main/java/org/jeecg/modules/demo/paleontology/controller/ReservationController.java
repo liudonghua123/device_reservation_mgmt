@@ -9,11 +9,16 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.jeecg.common.api.dto.message.TemplateMessageDTO;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
+import org.jeecg.common.system.vo.LoginUser;
 import org.jeecg.common.util.oConvertUtils;
 import org.jeecg.modules.demo.paleontology.entity.Reservation;
 import org.jeecg.modules.demo.paleontology.service.IReservationService;
+import org.jeecg.modules.system.entity.SysUser;
+import org.jeecg.modules.system.service.ISysUserService;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -25,6 +30,7 @@ import org.jeecgframework.poi.excel.def.NormalExcelConstants;
 import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
 import org.jeecgframework.poi.excel.view.JeecgEntityExcelView;
+import org.jeecg.common.system.api.ISysBaseAPI;
 import org.jeecg.common.system.base.controller.JeecgController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +42,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.jeecg.common.aspect.annotation.PermissionData;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
  /**
@@ -51,6 +58,10 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 public class ReservationController extends JeecgController<Reservation, IReservationService> {
 	@Autowired
 	private IReservationService reservationService;
+	@Autowired
+	private ISysBaseAPI sysBaseAPI;
+	@Autowired
+	private ISysUserService sysUserService;
 	
 	/**
 	 * 分页列表查询
@@ -101,7 +112,17 @@ public class ReservationController extends JeecgController<Reservation, IReserva
 	//@RequiresPermissions("paleontology:erp_reservation:edit")
 	@RequestMapping(value = "/edit", method = {RequestMethod.PUT,RequestMethod.POST})
 	public Result<String> edit(@RequestBody Reservation reservation) {
+		// 获取之前的预约记录，检测是否冲突
+		Reservation originalReservation = reservationService.getById(reservation.getId());
+		// TODO: 2021/3/3 0003  检测预约时间是否冲突
 		reservationService.updateById(reservation);
+		// TODO: 2021/3/3 0003  通过台消息推送接口发送审批状态变化通知
+		if(originalReservation.getApprovalStatus() != reservation.getApprovalStatus()) {
+			String formUsername = ((LoginUser)SecurityUtils.getSubject().getPrincipal()).getUsername();
+			// SysUser createdUser = sysUserService.getUserByName(originalReservation.getCreateBy());
+			log.info("审批状态变化，发送通知, from: {}, to: {}", formUsername, originalReservation.getCreateBy());
+			sysBaseAPI.sendTemplateAnnouncement(new TemplateMessageDTO(formUsername, originalReservation.getCreateBy(), "审批状态变化", Map.of("reservation", reservation.getExperimentName(), "approval_status", reservation.getApprovalStatus()), "approval_status_changed"));
+		}
 		return Result.OK("编辑成功!");
 	}
 	
