@@ -45,7 +45,14 @@ export const columns: BasicColumn[] = [
    {
     title: '审批状态',
     align:"center",
-    dataIndex: 'approvalStatus_dictText'
+    dataIndex: 'approvalStatus',
+    width: 80,
+    customRender: ({ text }) => {
+      // console.info(`审批状态 customRender text: ${text}`)
+      // approval_status, 已创建:1 ,已提交:2 ,已通过:3 ,已驳回:4 ,已完成:5 ,已关闭:6
+      const color = (text == '1' || text == '2') ? 'blue' : (text == '4') ? 'red' : 'green';
+      return render.renderTag(render.renderDict(text, 'approval_status'), color);
+    },
    },
    {
     title: '审批备注',
