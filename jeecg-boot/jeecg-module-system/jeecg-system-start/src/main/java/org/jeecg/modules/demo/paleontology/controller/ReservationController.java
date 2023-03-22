@@ -1,6 +1,7 @@
 package org.jeecg.modules.demo.paleontology.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -121,7 +122,12 @@ public class ReservationController extends JeecgController<Reservation, IReserva
 			String formUsername = ((LoginUser)SecurityUtils.getSubject().getPrincipal()).getUsername();
 			// SysUser createdUser = sysUserService.getUserByName(originalReservation.getCreateBy());
 			log.info("审批状态变化，发送通知, from: {}, to: {}", formUsername, originalReservation.getCreateBy());
-			sysBaseAPI.sendTemplateAnnouncement(new TemplateMessageDTO(formUsername, originalReservation.getCreateBy(), "审批状态变化", Map.of("reservation", reservation.getExperimentName(), "approval_status", reservation.getApprovalStatus()), "approval_status_changed"));
+			// TODO: why Map.of() not work? cannot find symbol method of location: interface java.util.Map
+			// Map<String, String> templateParam = Map.of("reservation", reservation.getExperimentName(), "approval_status", reservation.getApprovalStatus());
+			Map<String, String> templateParam = new HashMap<String, String>();
+			templateParam.put("reservation", reservation.getExperimentName());
+			templateParam.put("approval_status", reservation.getApprovalStatus().toString());
+			sysBaseAPI.sendTemplateAnnouncement(new TemplateMessageDTO(formUsername, originalReservation.getCreateBy(), "审批状态变化", templateParam, "approval_status_changed"));
 		}
 		return Result.OK("编辑成功!");
 	}
