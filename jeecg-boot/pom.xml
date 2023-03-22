@@ -15,7 +15,8 @@
 
 	<properties>
 		<jeecgboot.version>3.4.4</jeecgboot.version>
-		<java.version>1.8</java.version>
+		<!-- https://www.baeldung.com/maven-java-version -->
+		<java.version>11</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<!-- 微服务 -->
@@ -336,8 +337,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <release>11</release>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
