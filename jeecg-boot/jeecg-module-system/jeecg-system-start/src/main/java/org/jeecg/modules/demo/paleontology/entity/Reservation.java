@@ -97,7 +97,15 @@ public class Reservation implements Serializable {
 	@Dict(dicCode = "reservation_usage")
     @ApiModelProperty(value = "使用方向")
     private java.lang.String usageDirection;
-	/**审批状态*/
+    /**
+     * 审批状态
+     * 已创建	1	
+     * 已提交	2	
+     * 已通过	3	
+     * 已驳回	4	
+     * 已完成	5	
+     * 已关闭	6
+     */
 	@Excel(name = "审批状态", width = 15, dicCode = "approval_status")
 	@Dict(dicCode = "approval_status")
     @ApiModelProperty(value = "审批状态")

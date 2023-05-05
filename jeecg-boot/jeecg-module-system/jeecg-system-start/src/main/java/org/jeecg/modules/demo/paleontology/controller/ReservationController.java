@@ -98,8 +98,50 @@ public class ReservationController extends JeecgController<Reservation, IReserva
 	//@RequiresPermissions("paleontology:erp_reservation:add")
 	@PostMapping(value = "/add")
 	public Result<String> add(@RequestBody Reservation reservation) {
+		// 设置初始状态为 已创建 1
+		reservation.setApprovalStatus("1");
 		reservationService.save(reservation);
 		return Result.OK("添加成功！");
+	}
+
+	
+	/**
+	 *  检测冲突
+	 *
+	 * @param reservation
+	 * @return
+	 */
+	@AutoLog(value = "预约-检测冲突")
+	@ApiOperation(value="预约-检测冲突", notes="预约-检测冲突")
+	//@RequiresPermissions("paleontology:erp_reservation:edit")
+	@RequestMapping(value = "/conflict", method = {RequestMethod.PUT,RequestMethod.POST})
+	public Result<Map<String, Object>> conflict(@RequestBody Reservation reservation) {
+		// 获取当前用户已有的预约记录，检测是否冲突
+		boolean isConflictByCurrentUser = reservationService.checkConflictByCurrentUser(reservation);
+		// 获取相关设备的预约记录，检测是否冲突
+		boolean isConflictByRelatedDevice = reservationService.checkConflictByRelatedDevice(reservation);
+		// 返回结果
+		Map<String, Object> result = new HashMap<>();
+		result.put("status", false);
+		result.put("details", "");
+		if(isConflictByCurrentUser && !isConflictByRelatedDevice) {
+			result.put("status", true);
+			result.put("details", "当前用户已有预约记录，但是设备未被预约");
+			return Result.OK(result);
+		}
+		if(!isConflictByCurrentUser && isConflictByRelatedDevice) {
+			result.put("status", true);
+			result.put("details", "当前用户未有预约记录，但是设备已被预约");
+			return Result.OK(result);
+		}
+		if(isConflictByCurrentUser && isConflictByRelatedDevice) {
+			result.put("status", true);
+			result.put("details", "当前用户已有预约记录，且设备已被预约");
+			return Result.OK(result);
+		}
+		else {
+			return Result.OK(result);
+		}
 	}
 	
 	/**
@@ -113,9 +155,7 @@ public class ReservationController extends JeecgController<Reservation, IReserva
 	//@RequiresPermissions("paleontology:erp_reservation:edit")
 	@RequestMapping(value = "/edit", method = {RequestMethod.PUT,RequestMethod.POST})
 	public Result<String> edit(@RequestBody Reservation reservation) {
-		// 获取之前的预约记录，检测是否冲突
 		Reservation originalReservation = reservationService.getById(reservation.getId());
-		// TODO: 2021/3/3 0003  检测预约时间是否冲突
 		reservationService.updateById(reservation);
 		// TODO: 2021/3/3 0003  通过台消息推送接口发送审批状态变化通知
 		if(originalReservation.getApprovalStatus() != reservation.getApprovalStatus()) {

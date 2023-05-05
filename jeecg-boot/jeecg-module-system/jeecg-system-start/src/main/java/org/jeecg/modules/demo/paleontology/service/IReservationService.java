@@ -11,4 +11,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IReservationService extends IService<Reservation> {
 
+    boolean checkConflictByCurrentUser(Reservation reservation);
+
+    boolean checkConflictByRelatedDevice(Reservation reservation);
+
 }
