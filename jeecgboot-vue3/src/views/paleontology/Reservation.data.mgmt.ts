@@ -79,8 +79,12 @@ export const searchFormSchema: FormSchema[] = [
       field: 'usageStartDatetime',
       component: 'DatePicker',
       componentProps: {
-         showTime:true,
-         valueFormat: 'YYYY-MM-DD HH:mm:ss'
+        showNow: false,
+        showTime: {
+          minuteStep: 10,
+          format: 'HH:mm',
+        },
+        valueFormat: 'YYYY-MM-DD HH:mm:ss'
        },
       colProps: {span: 6},
  	},
@@ -89,8 +93,12 @@ export const searchFormSchema: FormSchema[] = [
       field: 'usageEndDatetime',
       component: 'DatePicker',
       componentProps: {
-         showTime:true,
-         valueFormat: 'YYYY-MM-DD HH:mm:ss'
+        showNow: false,
+        showTime: {
+          minuteStep: 10,
+          format: 'HH:mm',
+        },
+        valueFormat: 'YYYY-MM-DD HH:mm:ss'
        },
       colProps: {span: 6},
  	},

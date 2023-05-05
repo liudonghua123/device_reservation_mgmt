@@ -139,8 +139,12 @@ export const formSchema: FormSchema[] = [
     field: 'usageStartDatetime',
     component: 'DatePicker',
     componentProps: {
-       showTime: true,
-       valueFormat: 'YYYY-MM-DD HH:mm:ss'
+      showNow: false,
+      showTime: {
+        minuteStep: 10,
+        format: 'HH:mm',
+      },
+      valueFormat: 'YYYY-MM-DD HH:mm:ss'
      },
   },
   {
@@ -148,8 +152,12 @@ export const formSchema: FormSchema[] = [
     field: 'usageEndDatetime',
     component: 'DatePicker',
     componentProps: {
-       showTime: true,
-       valueFormat: 'YYYY-MM-DD HH:mm:ss'
+      showNow: false,
+      showTime: {
+        minuteStep: 10,
+        format: 'HH:mm',
+      },
+      valueFormat: 'YYYY-MM-DD HH:mm:ss'
      },
   },
   {
