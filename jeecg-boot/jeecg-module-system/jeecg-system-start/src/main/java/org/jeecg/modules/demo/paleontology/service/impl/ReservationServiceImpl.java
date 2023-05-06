@@ -27,11 +27,11 @@ public class ReservationServiceImpl extends ServiceImpl<ReservationMapper, Reser
         // 查询当前用户这段时间内是否有预约, 查询条件: 存在预约的开始时间或结束时间在当前预约的时间范围内，并且预约的审批状态不是已完成 5、已关闭 6
         QueryWrapper<Reservation> queryWrapper = new QueryWrapper<>();
         queryWrapper
-                .between("usageStartDatetime", reservation.getUsageStartDatetime(), reservation.getUsageEndDatetime())
+                .between("usage_start_datetime", reservation.getUsageStartDatetime(), reservation.getUsageEndDatetime())
                 .or()
-                .between("usageEndDatetime", reservation.getUsageStartDatetime(), reservation.getUsageEndDatetime())
-                .notIn("approvalStatus", "5", "6")
-                .eq("createBy", currentUserId);
+                .between("usage_end_datetime", reservation.getUsageStartDatetime(), reservation.getUsageEndDatetime())
+                .notIn("approval_status", "5", "6")
+                .eq("create_by", currentUserId);
 
         List<Reservation> results = this.getBaseMapper().selectList(queryWrapper);
         return results.size() > 0;
@@ -42,11 +42,11 @@ public class ReservationServiceImpl extends ServiceImpl<ReservationMapper, Reser
             // 查询当前预约的设备是否在当前预约的时间段内可用, 查询条件: 存在预约的开始时间或结束时间在当前预约的时间范围内，并且预约的设备是当前预约的设备，并且预约的审批状态不是已完成 5、已关闭 6
             QueryWrapper<Reservation> queryWrapper = new QueryWrapper<>();
             queryWrapper
-                    .between("usageStartDatetime", reservation.getUsageStartDatetime(), reservation.getUsageEndDatetime())
+                    .between("usage_start_datetime", reservation.getUsageStartDatetime(), reservation.getUsageEndDatetime())
                     .or()
-                    .between("usageEndDatetime", reservation.getUsageStartDatetime(), reservation.getUsageEndDatetime())
-                    .notIn("approvalStatus", "5", "6")
-                    .eq("deviceId", reservation.getDeviceId());
+                    .between("usage_end_datetime", reservation.getUsageStartDatetime(), reservation.getUsageEndDatetime())
+                    .notIn("approval_status", "5", "6")
+                    .eq("device_id", reservation.getDeviceId());
     
             List<Reservation> results = this.getBaseMapper().selectList(queryWrapper);
             return results.size() > 0;

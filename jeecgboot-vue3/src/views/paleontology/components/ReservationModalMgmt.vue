@@ -13,7 +13,7 @@
     import {extraReservationValidation} from '../utilities'
     import { notification, message } from 'ant-design-vue';
     // Emits声明
-    const emit = defineEmits(['register','success']);
+    const emit = defineEmits(['register','success','error']);
     const isUpdate = ref(true);
     //表单配置
     const [registerForm, {setProps,resetFields, setFieldsValue, validate}] = useForm({
@@ -52,11 +52,16 @@
             }
             setModalProps({confirmLoading: true});
             //提交表单
-            await saveOrUpdate(values, isUpdate.value);
+            const result = await saveOrUpdate(values, isUpdate.value);
+            console.info(`saveOrUpdate(values, isUpdate.value)`,{result});
             //关闭弹窗
             closeModal();
             //刷新列表
             emit('success');
+        } catch (error) {
+            console.info(`error`,{error})
+            message.error(error.message);
+            emit('error', error.message);
         } finally {
             setModalProps({confirmLoading: false});
         }

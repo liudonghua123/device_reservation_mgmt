@@ -16,7 +16,9 @@ import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.system.vo.LoginUser;
 import org.jeecg.common.util.oConvertUtils;
+import org.jeecg.modules.demo.paleontology.entity.Device;
 import org.jeecg.modules.demo.paleontology.entity.Reservation;
+import org.jeecg.modules.demo.paleontology.service.IDeviceService;
 import org.jeecg.modules.demo.paleontology.service.IReservationService;
 import org.jeecg.modules.system.entity.SysUser;
 import org.jeecg.modules.system.service.ISysUserService;
@@ -60,6 +62,8 @@ public class ReservationController extends JeecgController<Reservation, IReserva
 	@Autowired
 	private IReservationService reservationService;
 	@Autowired
+	private IDeviceService deviceService;
+	@Autowired
 	private ISysBaseAPI sysBaseAPI;
 	@Autowired
 	private ISysUserService sysUserService;
@@ -98,6 +102,11 @@ public class ReservationController extends JeecgController<Reservation, IReserva
 	//@RequiresPermissions("paleontology:erp_reservation:add")
 	@PostMapping(value = "/add")
 	public Result<String> add(@RequestBody Reservation reservation) {
+		// 检测时间冲突
+		Result<Map<String, Object>> conflictResults = conflict(reservation);
+		if (!conflictResults.isSuccess()) {
+			return Result.error(conflictResults.getResult().get("details").toString());
+		}
 		// 设置初始状态为 已创建 1
 		reservation.setApprovalStatus("1");
 		reservationService.save(reservation);
@@ -122,22 +131,18 @@ public class ReservationController extends JeecgController<Reservation, IReserva
 		boolean isConflictByRelatedDevice = reservationService.checkConflictByRelatedDevice(reservation);
 		// 返回结果
 		Map<String, Object> result = new HashMap<>();
-		result.put("status", false);
-		result.put("details", "");
+		result.put("details", "ok");
 		if(isConflictByCurrentUser && !isConflictByRelatedDevice) {
-			result.put("status", true);
 			result.put("details", "当前用户已有预约记录，但是设备未被预约");
-			return Result.OK(result);
+			return Result.error("conflict validate failure", result);
 		}
 		if(!isConflictByCurrentUser && isConflictByRelatedDevice) {
-			result.put("status", true);
 			result.put("details", "当前用户未有预约记录，但是设备已被预约");
-			return Result.OK(result);
+			return Result.error("conflict validate failure", result);
 		}
 		if(isConflictByCurrentUser && isConflictByRelatedDevice) {
-			result.put("status", true);
 			result.put("details", "当前用户已有预约记录，且设备已被预约");
-			return Result.OK(result);
+			return Result.error("conflict validate failure", result);
 		}
 		else {
 			return Result.OK(result);
@@ -155,7 +160,13 @@ public class ReservationController extends JeecgController<Reservation, IReserva
 	//@RequiresPermissions("paleontology:erp_reservation:edit")
 	@RequestMapping(value = "/edit", method = {RequestMethod.PUT,RequestMethod.POST})
 	public Result<String> edit(@RequestBody Reservation reservation) {
+		// 检测时间冲突
+		Result<Map<String, Object>> conflictResults = conflict(reservation);
+		if (!conflictResults.isSuccess()) {
+			return Result.error(conflictResults.getResult().get("details").toString());
+		}
 		Reservation originalReservation = reservationService.getById(reservation.getId());
+		Device device = deviceService.getById(reservation.getDeviceId());
 		reservationService.updateById(reservation);
 		// TODO: 2021/3/3 0003  通过台消息推送接口发送审批状态变化通知
 		if(originalReservation.getApprovalStatus() != reservation.getApprovalStatus()) {
@@ -167,6 +178,8 @@ public class ReservationController extends JeecgController<Reservation, IReserva
 			Map<String, String> templateParam = new HashMap<String, String>();
 			templateParam.put("reservation", reservation.getExperimentName());
 			templateParam.put("approval_status", reservation.getApprovalStatus().toString());
+			templateParam.put("guide", device.getGuide());
+			// templateParam.put("device", device);
 			sysBaseAPI.sendTemplateAnnouncement(new TemplateMessageDTO(formUsername, originalReservation.getCreateBy(), "审批状态变化", templateParam, "approval_status_changed"));
 		}
 		return Result.OK("编辑成功!");
