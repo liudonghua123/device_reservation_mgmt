@@ -40,6 +40,11 @@ export const columns: BasicColumn[] = [
     dataIndex: 'usageDirection_dictText'
    },
    {
+    title: "指导教师",
+    align:"center",
+    dataIndex: 'tutor',
+   },
+   {
     title: '审批状态',
     align:"center",
     dataIndex: 'approvalStatus',
@@ -161,6 +166,7 @@ export const formSchema: FormSchema[] = [
     componentProps:{
        dict:"erp_device,name,id"
     },
+    required: true,
   },
   {
     label: '实验项目',
@@ -168,41 +174,45 @@ export const formSchema: FormSchema[] = [
     component: 'JDictSelectTag',
     componentProps:{
         dictCode:"experiment_name"
-     },
+    },
+    required: true,
   },
   {
     label: '使用开始时间',
     field: 'usageStartDatetime',
     component: 'DatePicker',
     componentProps: {
-       showTime: true,
-       valueFormat: 'YYYY-MM-DD HH:mm:ss'
-     },
+      showTime: true,
+      valueFormat: 'YYYY-MM-DD HH:mm:ss'
+    },
+    required: true,
   },
   {
     label: '使用结束时间',
     field: 'usageEndDatetime',
     component: 'DatePicker',
     componentProps: {
-       showTime: true,
-       valueFormat: 'YYYY-MM-DD HH:mm:ss'
-     },
+      showTime: true,
+      valueFormat: 'YYYY-MM-DD HH:mm:ss'
+    },
+    required: true,
   },
   {
     label: '使用方向',
     field: 'usageDirection',
     component: 'JDictSelectTag',
     componentProps:{
-        dictCode:"reservation_usage"
-     },
+      dictCode:"reservation_usage"
+    },
+    required: true,
   },
   {
     label: '审批状态',
     field: 'approvalStatus',
     component: 'JDictSelectTag',
     componentProps:{
-        dictCode:"approval_status"
-     },
+      dictCode:"approval_status"
+    },
   },
   {
     label: '审批备注',
@@ -210,13 +220,14 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
   },
   {
-      label: "指导教师",
-      field: 'tutor',
-      // component: 'JDictSelectTag',
-      // componentProps:{
-      //     dictCode:"tutor_teacher"
-      //  },
-      component: 'Input',
+    label: "指导教师",
+    field: 'tutor',
+    // component: 'JDictSelectTag',
+    // componentProps:{
+    //     dictCode:"tutor_teacher"
+    //  },
+    component: 'Input',
+    required: true,
   },
   {
     label: '实验项目、内容、测试样品描述',
@@ -224,6 +235,7 @@ export const formSchema: FormSchema[] = [
     component: 'JEditor',
     colProps: {span: 24},
     itemProps: {labelCol: {sm: 2, xs: 12}, wrapperCol: {sm: 22, xs: 12}},
+    required: true,
   },
   // {
   //   label: '测试样品描述',

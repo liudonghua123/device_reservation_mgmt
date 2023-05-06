@@ -34,14 +34,9 @@ export const columns: BasicColumn[] = [
     dataIndex: 'usageDirection_dictText'
    },
    {
-       label: "指导教师",
-       field: 'tutor',
-      //  component: 'JDictSelectTag',
-      //  componentProps:{
-      //      dictCode:"tutor_teacher"
-      //  },
-      component: 'Input',
-       colProps: {span: 6},
+    title: "指导教师",
+    align:"center",
+    dataIndex: 'tutor',
    },
    {
     title: '审批状态',
@@ -130,14 +125,16 @@ export const formSchema: FormSchema[] = [
     componentProps:{
        dict:"erp_device,name,id"
     },
+    required: true,
   },
   {
     label: '实验项目',
     field: 'experimentName',
     component: 'JDictSelectTag',
     componentProps:{
-        dictCode:"experiment_name"
-     },
+      dictCode:"experiment_name"
+    },
+    required: true,
   },
   {
     label: '使用开始时间',
@@ -150,7 +147,8 @@ export const formSchema: FormSchema[] = [
         format: 'HH:mm',
       },
       valueFormat: 'YYYY-MM-DD HH:mm:ss'
-     },
+    },
+    required: true,
   },
   {
     label: '使用结束时间',
@@ -163,15 +161,17 @@ export const formSchema: FormSchema[] = [
         format: 'HH:mm',
       },
       valueFormat: 'YYYY-MM-DD HH:mm:ss'
-     },
+    },
+    required: true,
   },
   {
     label: '使用方向',
     field: 'usageDirection',
     component: 'JDictSelectTag',
     componentProps:{
-        dictCode:"reservation_usage"
-     },
+      dictCode:"reservation_usage"
+    },
+    required: true,
   },
   {
       label: "指导教师",
@@ -181,6 +181,7 @@ export const formSchema: FormSchema[] = [
       //     dictCode:"tutor_teacher"
       //  },
       component: 'Input',
+      required: true,
   },
   {
     label: '实验项目、内容、测试样品描述',
@@ -188,6 +189,7 @@ export const formSchema: FormSchema[] = [
     component: 'JEditor',
     colProps: {span: 24},
     itemProps: {labelCol: {sm: 2, xs: 12}, wrapperCol: {sm: 22, xs: 12}},
+    required: true,
   },
   {
     label: '使用后设备照片',
