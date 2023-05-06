@@ -8,7 +8,7 @@ git pull | tee -a $log_file
 # build the frontend
 echo [`date "+%Y-%m-%d %H:%M:%S"`] build the frontend | tee -a $log_file
 cd jeecgboot-vue3
-yarn build | tee -a $log_file
+pnpm run build | tee -a $log_file
 cd ..
 rm -rf html
 # type cp: cp is aliased to `cp -i', use \cp to use the real cp
