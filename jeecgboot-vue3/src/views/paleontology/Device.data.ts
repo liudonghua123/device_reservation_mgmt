@@ -107,43 +107,49 @@ export const formSchema: FormSchema[] = [
     label: '设备名称',
     field: 'name',
     component: 'Input',
+    required: true,
   },
   {
     label: '设备编号',
     field: 'deviceId',
     component: 'Input',
+    required: true,
   },
   {
     label: '设备类别',
     field: 'category',
     component: 'JDictSelectTag',
     componentProps:{
-        dictCode:"device_category"
-     },
+      dictCode:"device_category"
+    },
+    required: true,
   },
   {
     label: '负责人',
     field: 'manager',
     component: 'JSelectUserByDept',
     componentProps:{
-        labelKey:'realname',
-     },
+      labelKey:'realname',
+    },
+    required: true,
   },
   {
     label: '实验室名称',
     field: 'labName',
     component: 'JDictSelectTag',
     componentProps:{
-        dictCode:"lab_name"
-     },
+      dictCode:"lab_name"
+    },
+    required: true,
   },
   {
     label: '门牌号',
     field: 'position',
     component: 'JDictSelectTag',
     componentProps:{
-        dictCode:"lab_position"
-     },
+      dictCode:"lab_position"
+    },
+    required: true,
   },
   {
     label: '设备介绍',
@@ -151,6 +157,7 @@ export const formSchema: FormSchema[] = [
     component: 'JEditor',
     colProps: {span: 24},
     itemProps: {labelCol: {sm: 2, xs: 12}, wrapperCol: {sm: 22, xs: 12}},
+    required: true,
   },
   {
     label: '设备操作指南',
@@ -158,6 +165,7 @@ export const formSchema: FormSchema[] = [
     component: 'JEditor',
     colProps: {span: 24},
     itemProps: {labelCol: {sm: 2, xs: 12}, wrapperCol: {sm: 22, xs: 12}},
+    required: true,
   },
   {
     label: '设备注意事项',
@@ -165,6 +173,7 @@ export const formSchema: FormSchema[] = [
     component: 'JEditor',
     colProps: {span: 24},
     itemProps: {labelCol: {sm: 2, xs: 12}, wrapperCol: {sm: 22, xs: 12}},
+    required: true,
   },
 	// TODO 主键隐藏字段，目前写死为ID
 	{
