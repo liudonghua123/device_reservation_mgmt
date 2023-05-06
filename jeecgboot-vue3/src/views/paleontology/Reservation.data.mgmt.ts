@@ -2,6 +2,8 @@ import {BasicColumn} from '/@/components/Table';
 import {FormSchema} from '/@/components/Table';
 import { rules} from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
+import {checkUsageDatetime, disabledDate, disabledTime} from './utilities';
+import dayjs, { Dayjs } from 'dayjs';
 //列表数据
 export const columns: BasicColumn[] = [
    {
@@ -89,7 +91,7 @@ export const searchFormSchema: FormSchema[] = [
           minuteStep: 10,
           format: 'HH:mm',
         },
-        valueFormat: 'YYYY-MM-DD HH:mm:ss'
+        valueFormat: 'YYYY-MM-DD HH:mm'
        },
       colProps: {span: 6},
  	},
@@ -103,7 +105,7 @@ export const searchFormSchema: FormSchema[] = [
           minuteStep: 10,
           format: 'HH:mm',
         },
-        valueFormat: 'YYYY-MM-DD HH:mm:ss'
+        valueFormat: 'YYYY-MM-DD HH:mm'
        },
       colProps: {span: 6},
  	},
@@ -182,20 +184,36 @@ export const formSchema: FormSchema[] = [
     field: 'usageStartDatetime',
     component: 'DatePicker',
     componentProps: {
-      showTime: true,
-      valueFormat: 'YYYY-MM-DD HH:mm:ss'
+      showNow: false,
+      showTime: {
+        minuteStep: 10,
+        format: 'HH:mm',
+        defaultValue: dayjs().hour(8).minute(0).second(0),
+      },
+      valueFormat: 'YYYY-MM-DD HH:mm:ss',
+      disabledDate,
+      disabledTime,
     },
     required: true,
+    rules: [{ validator: checkUsageDatetime, trigger: 'blur' }],
   },
   {
     label: '使用结束时间',
     field: 'usageEndDatetime',
     component: 'DatePicker',
     componentProps: {
-      showTime: true,
-      valueFormat: 'YYYY-MM-DD HH:mm:ss'
+      showNow: false,
+      showTime: {
+        minuteStep: 10,
+        format: 'HH:mm',
+        defaultValue: dayjs().hour(17).minute(0).second(0),
+      },
+      valueFormat: 'YYYY-MM-DD HH:mm:ss',
+      disabledDate,
+      disabledTime,
     },
     required: true,
+    rules: [{ validator: checkUsageDatetime, trigger: 'blur' }],
   },
   {
     label: '使用方向',

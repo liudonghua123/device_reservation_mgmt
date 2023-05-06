@@ -10,6 +10,8 @@
     import {BasicForm, useForm} from '/@/components/Form/index';
     import {formSchema} from '../Reservation.data';
     import {saveOrUpdate} from '../Reservation.api';
+    import {extraReservationValidation} from '../utilities'
+    import { notification, message } from 'ant-design-vue';
     // Emits声明
     const emit = defineEmits(['register','success']);
     const isUpdate = ref(true);
@@ -41,6 +43,13 @@
     async function handleSubmit(v) {
         try {
             let values = await validate();
+            const {code, message: text} = extraReservationValidation(values)
+            console.info(`extraReservationValidation(values)`,{code, text})
+            if (code !== 0) {
+              // notification.error({text});
+              message.error(text);
+              return;
+            }
             setModalProps({confirmLoading: true});
             //提交表单
             await saveOrUpdate(values, isUpdate.value);
