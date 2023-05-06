@@ -81,7 +81,8 @@ public class Reservation implements Serializable {
     @ApiModelProperty(value = "实验内容")
     private java.lang.String experimentContent;
     /**指导教师*/
-    @Excel(name = "指导教师", width = 15, dicCode = "tutor_teacher")
+    // @Excel(name = "指导教师", width = 15, dicCode = "tutor_teacher")
+    @Excel(name = "指导教师", width = 15)
     @ApiModelProperty(value = "指导教师")
     private java.lang.String tutor;
 	/**测试样品描述*/

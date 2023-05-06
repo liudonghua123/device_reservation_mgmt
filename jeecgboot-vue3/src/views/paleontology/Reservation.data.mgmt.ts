@@ -128,11 +128,12 @@ export const searchFormSchema: FormSchema[] = [
  	},
   {
       label: "指导教师",
-      field: 'usageDirection',
-      component: 'JDictSelectTag',
-      componentProps:{
-          dictCode:"tutor_teacher"
-      },
+      field: 'tutor',
+      // component: 'JDictSelectTag',
+      // componentProps:{
+      //     dictCode:"tutor_teacher"
+      // },
+      component: 'Input',
       colProps: {span: 6},
   },
 	{
@@ -211,10 +212,11 @@ export const formSchema: FormSchema[] = [
   {
       label: "指导教师",
       field: 'tutor',
-      component: 'JDictSelectTag',
-      componentProps:{
-          dictCode:"tutor_teacher"
-       },
+      // component: 'JDictSelectTag',
+      // componentProps:{
+      //     dictCode:"tutor_teacher"
+      //  },
+      component: 'Input',
   },
   {
     label: '实验项目、内容、测试样品描述',
